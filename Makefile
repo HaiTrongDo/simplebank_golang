@@ -28,8 +28,12 @@ sqlc:
 #  only run on ubuntu and macOS
 # docker run --rm -v "C:\Users\Acer\Desktop\go-labs\src\github.com\user\simplebank:/src" -w /src kjconroy/sqlc generate
  
+test:
+	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb connect migratedown migrateup sqlc
+
+.PHONY: postgres createdb dropdb migratedown migrateup sqlc test
+
 
 #  -U postgresUser
 
