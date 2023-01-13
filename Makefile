@@ -1,5 +1,5 @@
 postgres:
-	docker run --name myPostgresDb -p 5433:5432 -e POSTGRES_USER=postgresUser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgresDB -d postgres
+	docker run --name myPostgres -p 5433:5432 -e POSTGRES_USER=postgresUser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgresDB -d postgres
 
 createdb:
 # run on window
@@ -35,6 +35,5 @@ test:
 .PHONY: postgres createdb dropdb migratedown migrateup sqlc test
 
 
-#  -U postgresUser
+# -U postgresUser
 
-# migrate -path db/migration -database "postgresql://postgresUser:postgres@localhost:5433/simple_bank?sslmode=disable" -verbose up
