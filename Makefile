@@ -35,7 +35,9 @@ server:
 	go run main.go
 
 commit:
-	git add . && git commit -m"update" && git push origin main
+	git add .
+	git commit -m"$t"
+	git push origin main
 
 .PHONY: postgres createdb dropdb migratedown migrateup sqlc test server commit
 
