@@ -18,8 +18,15 @@ dropdb:
 migrateup:
 	migrate -path db/migration -database "postgresql://postgresUser:postgres@localhost:5433/simple_bank?sslmode=disable" -verbose up
 
+migrateup1:
+	migrate -path db/migration -database "postgresql://postgresUser:postgres@localhost:5433/simple_bank?sslmode=disable" -verbose up 1
+
 migratedown:
 	migrate -path db/migration -database "postgresql://postgresUser:postgres@localhost:5433/simple_bank?sslmode=disable" -verbose down
+
+
+migratedown1:
+	migrate -path db/migration -database "postgresql://postgresUser:postgres@localhost:5433/simple_bank?sslmode=disable" -verbose down 1
 
 sqlc: 
 #  only run with cmd on window
@@ -43,7 +50,7 @@ commit:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go  github.com/user/simplebank/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migratedown migrateup sqlc test server commit mock
+.PHONY: postgres createdb dropdb migratedown migrateup migratedown1 migrateup1 sqlc test server commit mock
 
 
 # -U postgresUser
