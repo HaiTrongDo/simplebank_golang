@@ -1,5 +1,5 @@
 postgres:
-	docker run --name myPostgres -p 5433:5432 -e POSTGRES_USER=postgresUser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgresDB -d postgres
+	docker run --name myPostgres --network bank-network -p 5433:5432 -e POSTGRES_USER=postgresUser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgresDB -d postgres
 
 createdb:
 # run on window
@@ -49,8 +49,21 @@ commit:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go  github.com/user/simplebank/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migratedown migrateup migratedown1 migrateup1 sqlc test server commit mock
+network:
+	docker network create bank-network
+
+.PHONY: postgres createdb dropdb migratedown migrateup migratedown1 migrateup1 sqlc test server commit mock network
 
 
 # -U postgresUser
 
+# docker build -t simplebank:latest .
+# docker run --name simplebank -p 8080:8080 -e GIN_MODE=release simplebank:latest
+
+
+
+# debug tool
+# docker container inspect myPostgres
+# docker container inspect simplebank
+
+# docker run --name simplebank --network bank-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://postgresUser:postgres@myPostgres:5432/simple_bank?sslmode=disable" simplebank:latest
