@@ -18,9 +18,10 @@ services:
       - postgres
     entrypoint:
       [
+        "/bin/sh",
         "/app/wait-for.sh",
         "postgres:5432",
         "--",
-        "/app/start.sh",
+        "/app/start.sh"
       ]
     command: [ "/app/main" ]
