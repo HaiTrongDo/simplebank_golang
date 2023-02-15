@@ -1,4 +1,4 @@
-FROM golang:1.20-alpine AS builder
+FROM golang:1.17-alpine AS builder
 WORKDIR /app
 COPY . .
 RUN go build -o main main.go
@@ -12,11 +12,8 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/migrate ./migrate
 COPY app.env .
 COPY start.sh .
-COPY wait-for.sh .
-RUN chmod +x ./start.sh
-RUN chmod +x ./wait-for.sh
-COPY db/migration ./db/migration
+COPY db/migration ./migration
 
 EXPOSE 8080
-CMD [ "/app/main" ]
-ENTRYPOINT [ "/bin/sh", "/app/start.sh" ]
+
+CMD set -e && echo "Running database migration..." && /app/migrate -path /app/migration -database "$DB_SOURCE" -verbose up && echo "Database migration complete." && /app/main
